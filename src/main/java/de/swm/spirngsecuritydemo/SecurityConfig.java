@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 /**
@@ -22,7 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests().anyRequest().authenticated();
+        http.logout().logoutUrl("/logout");
+		http.csrf().disable();
+				//.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+		http.authorizeRequests().anyRequest().authenticated()
+			.and().formLogin().and().httpBasic();
 	}
 
 }
