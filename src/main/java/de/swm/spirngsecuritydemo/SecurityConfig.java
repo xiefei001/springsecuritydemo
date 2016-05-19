@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
+
 /**
  * Created by xie on 2016/5/2.
  */
@@ -20,9 +21,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
         http.logout().logoutUrl("/logout");
+		http.authorizeRequests().antMatchers("/test/**").hasRole("USER").and()
+				.requiresChannel();
 		http.csrf().disable();
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		http.authorizeRequests().anyRequest().authenticated()
